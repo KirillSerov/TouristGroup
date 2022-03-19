@@ -36,7 +36,14 @@ namespace TouristsGroup
                 if (tourist != null)
                 {
                     int currentRow = Table.Rows.Add(tourist.Firstname, tourist.Surname, Tourist.LevelString[(int)tourist.TouristLevel]);
-                    (Table.Rows[currentRow].Cells[7] as DataGridViewComboBoxCell).Items.AddRange(Group.Tourists[currentRow].Inventar.ToArray());
+
+                    List<string> inventar = new List<string>();
+                    foreach (var item in Group.Tourists[currentRow].Inventar.ToArray())
+                    {
+                        inventar.Add(item.ToString());
+                    }
+
+                    (Table.Rows[currentRow].Cells[7] as DataGridViewComboBoxCell).Items.AddRange(inventar.ToArray());
                     (Table.Rows[currentRow].Cells[8] as DataGridViewButtonCell).Value = "Редактировать";
                     (Table.Rows[currentRow].Cells[9] as DataGridViewButtonCell).Value = "Удалить";
                 }
@@ -99,7 +106,7 @@ namespace TouristsGroup
                 else if (Group.Tourists[e.RowIndex] != null)
                 {
                     EquipTourist equip = new EquipTourist(Group.Tourists[e.RowIndex]);
-                    equip.Show();
+                    equip.ShowDialog();
                 }
             }
             else if (e.ColumnIndex == 9) // Удалить.
